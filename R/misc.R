@@ -120,19 +120,27 @@ as.list.quantities <- function(x, ...)
 #' @param ... see \link[pillar]{pillar_shaft}.
 #'
 #' @name tibble
-#' @export type_sum.quantities
+#' @rawNamespace if(getRversion() >= "3.6.0") {
+#'   S3method(pillar::type_sum, quantities)
+#'   S3method(pillar::pillar_shaft, quantities)
+#' } else {
+#'   export(type_sum.quantities)
+#'   export(pillar_shaft.quantities)
+#' }
 type_sum.quantities <- function(x) {
+  if (getRversion() >= "3.6.0") {
+    type_sum.errors <- utils::getS3method("type_sum", "errors")
+    type_sum.units <- utils::getS3method("type_sum", "units")
+  }
   out <- gsub("\\[|\\]", "", paste(type_sum.errors(x), type_sum.units(x)))
   paste0("[", out, "]")
 }
 
 #' @name tibble
-#' @export pillar_shaft.quantities
 pillar_shaft.quantities <- function(x, ...) {
-  out <- pillar_shaft.errors(drop_units(x), ...)
   if (!requireNamespace("pillar", quietly = TRUE))
-    return(out)
-
+    return(format(x))
+  out <- pillar::pillar_shaft(drop_units(x), ...)
   out <- sapply(out, paste, pillar::style_subtle(as.character(units(x))))
   pillar::new_pillar_shaft_simple(out, align = "right", min_width = 8)
 }
