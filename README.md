@@ -20,8 +20,8 @@ Vignettes:
 
 Papers:
 
-- Edzer Pebesma, Thomas Mailund and James Hiebert (2016). "Measurement Units in R." _The R Journal_, 8 (2), 486--494 [[online](https://journal.r-project.org/archive/2016/RJ-2016-061/index.html)].
-- Iñaki Ucar, Edzer Pebesma, Arturo Azcorra (2018). "Measurement Errors in R." arXiv [[online](https://arxiv.org/abs/1804.08552)].
+- Edzer Pebesma, Thomas Mailund and James Hiebert (2016). "Measurement Units in R." _The R Journal_, 8 (2), 486--494. DOI: [10.32614/RJ-2016-061](https://doi.org/10.32614/RJ-2016-061)
+- Iñaki Ucar, Edzer Pebesma and Arturo Azcorra (2018). "Measurement Errors in R." _The R Journal_, 10 (2), 549--557. DOI: [10.32614/RJ-2018-075](https://doi.org/10.32614/RJ-2018-075)
 
 ## Installation
 

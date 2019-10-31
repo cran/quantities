@@ -11,6 +11,15 @@ quantity calculus system within the R language. R vectors, matrices and arrays
 automatically propagate those attributes when you operate with \code{quantities}
 objects.
 }
+\references{
+Edzer Pebesma, Thomas Mailund and James Hiebert (2016).
+Measurement Units in \R. \emph{The R Journal}, 8(2), 486--494.
+\doi{10.32614/RJ-2016-061}
+
+Iñaki Ucar, Edzer Pebesma and Arturo Azcorra (2018).
+Measurement Errors in \R. \emph{The R Journal}, 10(2), 549--557.
+\doi{10.32614/RJ-2018-075}
+}
 \author{
 Iñaki Ucar
 }
