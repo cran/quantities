@@ -14,12 +14,7 @@
 #' @name units
 #' @export
 `units<-.quantities` <- function(x, value) {
-  e <- errors(x)
-  if (!is_offset(units(x), value)) { # not offset, then scale
-    units(e) <- units(x)
-    units(e) <- value
-    units(e) <- NULL
-  }
+  e <- errors(x) * get_scaling(units(x), value)
   x <- NextMethod()
   errors(x) <- e
   x
@@ -36,11 +31,11 @@
 
 #' @name units
 #' @export
-set_units.quantities <- utils::getS3method("set_units", "units")
+set_units.quantities <- getS3method("set_units", "units")
 
 #' @name units
 #' @export
-set_units.errors <- utils::getS3method("set_units", "units")
+set_units.errors <- getS3method("set_units", "units")
 
 #' @name units
 #' @export
@@ -49,4 +44,4 @@ mixed_units.quantities <- function(x, values, ...)
 
 #' @name units
 #' @export
-mixed_units.errors <- utils::getS3method("mixed_units", "numeric")
+mixed_units.errors <- getS3method("mixed_units", "numeric")

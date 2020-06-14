@@ -124,15 +124,12 @@ test_that("bind methods work properly", {
   expect_equal(colnames(x), c("a", "a", "a"))
 })
 
-test_that("type_sum is available for quantities objects", {
-  skip_if_not_installed("tibble")
-  library(tibble)
-  expect_equal(type_sum(set_quantities(1, "m", 0.1)), "[(err) m]")
-})
+test_that("str method works as expected", {
+  x <- set_quantities(runif(5), "m", 0.01)
+  out <- utils::capture.output(str(x))
 
-test_that("pillar_shaft is available for quantities objects", {
-  skip_if_not_installed("pillar")
-  library(pillar)
-  expect_equal(as.character(pillar_shaft(set_quantities(1, "m", 0.1))),
-               paste0("1.0", style_subtle("(1)"), " ", style_subtle("m")))
+  u_char <- format(drop_errors(x)[0])
+  header <- paste0(" Units+Errors:", u_char, " num [1:", length(x), "] ")
+  vec <- paste(format(drop_units(x)), collapse=" ")
+  expect_equal(out, paste0(header, vec, " "))
 })

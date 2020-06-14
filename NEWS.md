@@ -1,3 +1,9 @@
+# quantities 0.1.5
+
+- Fix compatibility with `dplyr` 1.0.0 (#8), coordinated with units and errors.
+- Fix uncertainty propagation for mixed scaling+offset unit conversion, such
+  as Celsius to Fahrenheit (#9).
+
 # quantities 0.1.4
 
 - Add compatibility with upcoming tibble v3.0.0 (r-quantities/units#225).

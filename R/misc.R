@@ -112,39 +112,6 @@ as.data.frame.quantities <- function(x, row.names = NULL, optional = FALSE, ...)
 as.list.quantities <- function(x, ...)
   mapply(set_quantities, unclass(x), x, errors(x), mode="standard", SIMPLIFY=FALSE)
 
-#' Methods for Tidy \code{tibble} Printing
-#'
-#' S3 methods for \code{quantities} objects.
-#'
-#' @param x object of class quantities.
-#' @param ... see \link[pillar]{pillar_shaft}.
-#'
-#' @name tibble
-#' @rawNamespace if(getRversion() >= "3.6.0") {
-#'   S3method(pillar::type_sum, quantities)
-#'   S3method(pillar::pillar_shaft, quantities)
-#' } else {
-#'   export(type_sum.quantities)
-#'   export(pillar_shaft.quantities)
-#' }
-type_sum.quantities <- function(x) {
-  if (getRversion() >= "3.6.0") {
-    type_sum.errors <- utils::getS3method("type_sum", "errors")
-    type_sum.units <- utils::getS3method("type_sum", "units")
-  }
-  out <- gsub("\\[|\\]", "", paste(type_sum.errors(x), type_sum.units(x)))
-  paste0("[", out, "]")
-}
-
-#' @name tibble
-pillar_shaft.quantities <- function(x, ...) {
-  if (!requireNamespace("pillar", quietly = TRUE))
-    return(format(x))
-  out <- pillar::pillar_shaft(drop_units(x), ...)
-  out <- sapply(out, paste, pillar::style_subtle(as.character(units(x))))
-  pillar::new_pillar_shaft_simple(out, align = "right", min_width = 8)
-}
-
 #' Coerce to a Matrix
 #'
 #' S3 method for \code{quantities} objects (see \code{\link{as.matrix}}).
@@ -197,7 +164,7 @@ cbind.quantities <- function(..., deparse.level = 1) {
   dots <- list(...)
   stopifnot(all(sapply(dots, inherits, "units")))
   u <- units(dots[[1]])
-  dots <- utils::getS3method("set_units", "mixed_units")(dots, as.character(u))
+  dots <- getS3method("set_units", "mixed_units")(dots, as.character(u))
 
   nm <- names(as.list(match.call()))
   nm <- nm[nm != "" & nm != "deparse.level"]
@@ -206,7 +173,7 @@ cbind.quantities <- function(..., deparse.level = 1) {
   else names(dots) <- nm
 
   call <- as.character(match.call()[[1]])
-  assign(call, utils::getS3method(call, "errors"))
+  assign(call, getS3method(call, "errors"))
   value <- do.call(call, c(dots, deparse.level=deparse.level))
   attr(value, "units") <- u
   reclass(value)

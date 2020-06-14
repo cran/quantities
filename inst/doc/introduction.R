@@ -134,14 +134,8 @@ iris.q %>%
   ) %>%
   head()
 
-## ---- error=TRUE--------------------------------------------------------------
-iris.q %>%
-  group_by(Species) %>%
-  summarise_all(mean)
-
 ## -----------------------------------------------------------------------------
 iris.q %>%
-  mutate_at(vars(-Species), drop_errors) %>%
   group_by(Species) %>%
   summarise_all(mean)
 
@@ -155,28 +149,19 @@ iris.q %>%
 
 ## -----------------------------------------------------------------------------
 iris.q %>%
-  gather("key", "value", 1:4) %>%
-  separate(key, c("part", "dim")) %>%
+  pivot_longer(1:4) %>%
+  separate(name, c("part", "dim")) %>%
   head()
 
 ## -----------------------------------------------------------------------------
-wide <- iris %>%
+iris %>%
   # first gather, with row numbers as row_id
   mutate(row_id = 1:n()) %>%
-  gather("key", "value", 1:4) %>%
-  separate(key, c("part", "dim")) %>%
+  pivot_longer(1:4) %>%
   # assign quantities
   mutate(value = set_quantities(value, cm, value * 0.05)) %>%
-  # now spread
-  unite(key, part, dim, sep=".") %>%
-  spread(key, value) %>%
-  select(-row_id)
-
-head(wide)
-
-## ---- error=TRUE--------------------------------------------------------------
-all(sapply(colnames(iris.q), function(col) all(iris.q[[col]] == wide[[col]])))
-
-length(errors(iris.q$Sepal.Length))
-length(errors(wide$Sepal.Length))
+  # now spread and remove the row_id
+  pivot_wider() %>%
+  select(-row_id) %>%
+  head()
 
