@@ -1,7 +1,7 @@
 Package: quantities
 Type: Package
 Title: Quantity Calculus for R Vectors
-Version: 0.1.5
+Version: 0.1.6
 Authors@R: c(
     person("Iñaki", "Ucar", email="iucar@fedoraproject.org",
       role=c("aut", "cph", "cre"), comment=c(ORCID="0000-0001-6403-5550")))
@@ -22,11 +22,11 @@ Suggests: pillar, dplyr (>= 1.0.0), vctrs (>= 0.3.1), tidyr, testthat,
         knitr, rmarkdown
 LinkingTo: Rcpp (>= 0.12.10)
 ByteCompile: yes
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2020-06-13 22:29:38 UTC; iucar
+Packaged: 2021-02-21 11:02:36 UTC; iucar
 Author: Iñaki Ucar [aut, cph, cre] (<https://orcid.org/0000-0001-6403-5550>)
 Maintainer: Iñaki Ucar <iucar@fedoraproject.org>
 Repository: CRAN
-Date/Publication: 2020-06-14 05:20:02 UTC
+Date/Publication: 2021-02-21 15:50:02 UTC
