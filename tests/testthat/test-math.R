@@ -1,5 +1,3 @@
-context("math")
-
 test_that("rounding methods work properly", {
   x <- set_quantities(c(-2, 0, 2), "m/s", 0.1)
   expect_equal(sign(x), c(-1, 0, 1))
@@ -76,8 +74,8 @@ test_that("cumulative methods work properly", {
   xu <- set_units(xval, xunt, mode="standard")
   xe <- set_errors(xval, xerr)
 
-  expect_quantities(cumsum(x), cumsum(xval), units(cumsum(xu)), errors(cumsum(x)))
+  expect_quantities(cumsum(x), cumsum(xval), units(cumsum(xu)), errors(cumsum(xe)))
   expect_warning(expect_errors(cumprod(x), cumprod(xval), errors(cumprod(xe))))
-  expect_quantities(cummax(x), cummax(xval), units(cummax(xu)), errors(cummax(x)))
-  expect_quantities(cummin(x), cummin(xval), units(cummin(xu)), errors(cummin(x)))
+  expect_quantities(cummax(x), cummax(xval), units(cummax(xu)), errors(cummax(xe)))
+  expect_quantities(cummin(x), cummin(xval), units(cummin(xu)), errors(cummin(xe)))
 })

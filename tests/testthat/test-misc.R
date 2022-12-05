@@ -1,5 +1,3 @@
-context("misc")
-
 test_that("subsetting methods work properly", {
   xval <- 1.1:10.1
   xerr <- seq(0.005, 0.05, 0.005)
@@ -29,8 +27,8 @@ test_that("diff method works properly", {
   xerr <- seq(0.005, 0.05, 0.005)
   xunt <- "m/s"
   x <- set_quantities(xval, xunt, xerr, mode="standard")
+  y <- drop_units(x)
 
-  y <- x
   for (i in 1:(length(y)-1)) y[i] <- y[i+1] - y[i]
   expect_quantities(diff(x), diff(xval), xunt, errors(y)[1:9])
 })
@@ -132,4 +130,38 @@ test_that("str method works as expected", {
   header <- paste0(" Units+Errors:", u_char, " num [1:", length(x), "] ")
   vec <- paste(format(drop_units(x)), collapse=" ")
   expect_equal(out, paste0(header, vec, " "))
+})
+
+test_that("duplicated-related methods work as expected", {
+  x <- set_quantities(1:4, m, rep(c(0.1, 0.2), 2))
+  expect_equal(duplicated(x), duplicated(drop_errors(x)))
+  expect_equal(anyDuplicated(x), anyDuplicated(drop_errors(x)))
+  expect_equal(unique(x), x)
+
+  x <- set_quantities(rep(c(1, 2), 2), m, seq(0.1, 0.4, 0.1))
+  expect_equal(duplicated(x), duplicated(errors(x)))
+  expect_equal(anyDuplicated(x), anyDuplicated(errors(x)))
+  expect_equal(unique(x), x)
+
+  x <- set_quantities(rep(c(1, 2), 2), m, rep(c(0.1, 0.2), 2))
+  expect_equal(duplicated(x), duplicated(drop_errors(x)))
+  expect_equal(anyDuplicated(x), anyDuplicated(drop_errors(x)))
+  expect_equal(unique(x), x[1:2])
+
+  x <- set_quantities(rep(c(1, 2), 2), m, c(0.1, 0.2, 0.1, 0.3))
+  expect_equal(duplicated(x), c(FALSE, FALSE, TRUE, FALSE))
+  expect_equal(duplicated(x, fromLast=TRUE), c(TRUE, FALSE, FALSE, FALSE))
+  expect_equal(anyDuplicated(x), 3)
+  expect_equal(anyDuplicated(x, fromLast=TRUE), 1)
+  expect_equal(unique(x), x[c(1, 2, 4)])
+
+  x <- set_quantities(matrix(rep(c(1, 2), 2), 2, byrow=TRUE), m, rep(c(0.1, 0.2), each=2))
+  expect_equal(duplicated(x), duplicated(drop_errors(x)))
+  expect_equal(anyDuplicated(x), anyDuplicated(drop_errors(x)))
+  expect_equal(unique(x), x[1, , drop=FALSE])
+
+  x <- set_quantities(matrix(rep(c(1, 2), 2), 2, byrow=TRUE), m, rep(c(0.1, 0.2), 2))
+  expect_equal(duplicated(x), array(c(FALSE, FALSE), 2))
+  expect_equal(anyDuplicated(x), 0)
+  expect_equal(unique(x), x)
 })

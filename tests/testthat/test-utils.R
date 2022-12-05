@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("objects with errors & units attributes are reclassed", {
   x <- 1
   expect_is(reclass(x), "numeric")
@@ -12,12 +10,6 @@ test_that("objects with errors & units attributes are reclassed", {
   attr(x, "errors") <- 1
   attr(x, "units") <- 1
   expect_is(reclass(x), "quantities")
-})
-
-test_that("offset units (vs. scale units) are detected", {
-  expect_equal(get_scaling("K", "celsius"), 1)
-  expect_equal(get_scaling("K", "fahrenheit"), 9/5)
-  expect_equal(get_scaling("K", "mK"), 1000)
 })
 
 test_that("dots are converted to the units of the first argument", {

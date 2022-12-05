@@ -7,7 +7,7 @@ library(quantities)
 
 iris.q <- iris
 for (i in 1:4)
-  quantities(iris.q[,i]) <- list("cm", iris.q[,i] * 0.05)
+  quantities(iris.q[,i]) <- list("cm", iris.q[,i] * 0.02)
 head(iris.q)
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -17,8 +17,8 @@ head(iris.q)
 print(c("base", "compiler", "datasets", "graphics", "grDevices", "grid", "methods", "parallel", "splines", "stats", "stats4", "tcltk", "tools", "utils"))
 
 ## -----------------------------------------------------------------------------
-iris.q[which(iris.q$Sepal.Length > set_quantities(7.5, cm)), ]
-subset(iris.q, Sepal.Length > set_quantities(7.5, cm))
+iris.q[which(iris.q$Sepal.Length > set_quantities(75, mm)), ]
+subset(iris.q, Sepal.Length > set_quantities(75, mm))
 
 ## -----------------------------------------------------------------------------
 iris.q$Sepal.Length[1:5]
@@ -106,8 +106,40 @@ head(wide.2)
 all(sapply(colnames(iris.q), function(col) all(iris.q[[col]] == wide.2[[col]])))
 
 ## ---- cache = FALSE, include=FALSE--------------------------------------------
+required <- c(
+  packageVersion("errors") >= "0.3.6.1",
+  packageVersion("units") >= "0.8-0"
+)
+
+if (!all(required))
+  knitr::opts_chunk$set(eval = FALSE)
+
+## -----------------------------------------------------------------------------
+# vector plots
+with(iris.q, plot(Sepal.Width, col=Species))
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  # x-y plots
+#  with(iris.q, plot(Sepal.Length, Sepal.Width, col=Species))
+#  # dataframe plots
+#  plot(iris.q[, c("Sepal.Length", "Sepal.Width")], col=iris.q$Species)
+
+## -----------------------------------------------------------------------------
+plot(Sepal.Width ~ Sepal.Length, iris.q, col=Species)
+
+## -----------------------------------------------------------------------------
+plot(as.numeric(Sepal.Width) ~ Sepal.Length, iris.q, col=Species)
+
+## -----------------------------------------------------------------------------
+plot(Sepal.Width ~ as.numeric(Sepal.Length), iris.q, col=Species)
+
+## -----------------------------------------------------------------------------
+plot(Sepal.Width ~ set_quantities(as.numeric(Sepal.Length), 1, 0), iris.q, col=Species)
+
+## ---- cache = FALSE, include=FALSE--------------------------------------------
 required <- c("dplyr", "tidyr")
 
+knitr::opts_chunk$set(eval = TRUE)
 if (!all(sapply(required, requireNamespace, quietly = TRUE)))
   knitr::opts_chunk$set(eval = FALSE)
 
@@ -116,8 +148,12 @@ library(dplyr); packageVersion("dplyr")
 library(tidyr); packageVersion("tidyr")
 
 ## -----------------------------------------------------------------------------
+iris.q <- as_tibble(iris.q)
+head(iris.q)
+
+## -----------------------------------------------------------------------------
 iris.q %>%
-  filter(Sepal.Length > set_quantities(7.5, cm)) %>%
+  filter(Sepal.Length > set_quantities(75, mm)) %>%
   head()
 
 ## -----------------------------------------------------------------------------
@@ -164,4 +200,30 @@ iris %>%
   pivot_wider() %>%
   select(-row_id) %>%
   head()
+
+## ---- cache = FALSE, include=FALSE--------------------------------------------
+required <- c(
+  packageVersion("errors") >= "0.3.6.1",
+  packageVersion("units") >= "0.8-0"
+)
+
+if (!all(required))
+  knitr::opts_chunk$set(eval = FALSE)
+
+## ---- message=FALSE, warning=FALSE--------------------------------------------
+library(ggplot2); packageVersion("ggplot2")
+
+## -----------------------------------------------------------------------------
+p0 <- ggplot(iris.q) + aes(Sepal.Length, Sepal.Width, color=Species) +
+  geom_point()
+p0
+
+## -----------------------------------------------------------------------------
+p0 + geom_errors()
+
+## -----------------------------------------------------------------------------
+p0 + geom_errors(aes(x=drop_errors(Sepal.Length)))
+
+## -----------------------------------------------------------------------------
+p0 + geom_errors() + scale_x_units(unit="mm") + scale_y_units(unit="m")
 

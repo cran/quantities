@@ -1,5 +1,3 @@
-context("tidyverse")
-
 test_that("pillar methods work for errors objects", {
   skip_if_not_installed("pillar")
 
@@ -11,16 +9,18 @@ test_that("pillar methods work for errors objects", {
                as.character(pillar::pillar_shaft(drop_units(x))))
 })
 
-skip_if_not_installed("vctrs", "0.3.1")
-skip_if_not_installed("dplyr", "1.0.0")
-
 test_that("can proxy and restore quantities", {
+  skip_if_not_installed("vctrs", "0.3.1")
+
   x <- set_quantities(1:3, "cm", 3:1, mode = "standard")
   out <- vctrs::vec_restore(vctrs::vec_proxy(x), x)
   expect_equal(out, x)
 })
 
 test_that("can slice quantities", {
+  skip_if_not_installed("vctrs", "0.3.1")
+  skip_if_not_installed("dplyr", "1.0.0")
+
   x <- set_quantities(1:3, "cm", 3:1, mode = "standard")
   exp <- list(x[1], x[2], x[3])
   expect_equal(vctrs::vec_chop(x), exp)
@@ -35,17 +35,22 @@ test_that("can slice quantities", {
 })
 
 test_that("can combine quantities", {
+  skip_if_not_installed("vctrs", "0.3.1")
+  skip_if_not_installed("dplyr", "1.0.0")
+
   x <- set_quantities(1:3, "cm", 3:1, mode = "standard")
   df <- dplyr::tibble(x = dplyr::tibble(x = x))
 
-  out <- vctrs::vec_unchop(vctrs::vec_chop(x))
+  out <- vctrs::list_unchop(vctrs::vec_chop(x))
   expect_equal(out, x)
 
-  out <- vctrs::vec_unchop(vctrs::vec_chop(df))
+  out <- vctrs::list_unchop(vctrs::vec_chop(df))
   expect_equal(out, df)
 })
 
 test_that("quantities have coercion methods", {
+  skip_if_not_installed("vctrs", "0.3.1")
+
   x <- set_quantities(1:3, "cm", 3:1, mode = "standard")
   y <- set_quantities(4, "m", 2, mode = "standard")
   z <- set_quantities(10, "celsius", 20, mode = "standard")
@@ -88,9 +93,11 @@ test_that("quantities have coercion methods", {
   )
 })
 
-`%>%` <- dplyr::`%>%`
-
 test_that("split-apply-combine with dplyr and base agree", {
+  skip_if_not_installed("vctrs", "0.3.1")
+  skip_if_not_installed("dplyr", "1.0.0")
+
+  `%>%` <- dplyr::`%>%`
   iris2 <- iris
   for (i in 1:4)
     quantities(iris2[,i]) <- list("cm", iris2[,i] * 0.05)

@@ -2,9 +2,10 @@
 #'
 #' S3 operators to extract or replace parts of \code{quantities} objects.
 #'
-#' @inheritParams base::Extract
+#' @param x object from which to extract element(s) or in which to replace element(s).
 #' @param ... additional arguments to be passed to base methods
 #' (see \code{\link[base]{Extract}}).
+#' @param value typically an array-like \R object of a similar class as \code{x}.
 #' @name Extract.quantities
 #'
 #' @examples
@@ -13,7 +14,8 @@
 #' (z <- rbind(x, y))
 #' z[2, 2]
 #' z[2, 2] <- -1
-#' errors(z[[1, 2]]) <- 0.8
+#' errors(z[[1, 2]]) <- 0.8 # assumes same unit
+#' errors(z[[2, 2]]) <- set_units(80, cm/s)
 #' z[, 2]
 #'
 #' @export
@@ -109,8 +111,7 @@ as.data.frame.quantities <- function(x, row.names = NULL, optional = FALSE, ...)
 #' as.list(x)
 #'
 #' @export
-as.list.quantities <- function(x, ...)
-  mapply(set_quantities, unclass(x), x, errors(x), mode="standard", SIMPLIFY=FALSE)
+as.list.quantities <- function(x, ...) reclass(NextMethod())
 
 #' Coerce to a Matrix
 #'
@@ -184,17 +185,19 @@ cbind.quantities <- function(..., deparse.level = 1) {
 rbind.quantities <- cbind.quantities
 
 #' @export
-all.equal.quantities <- function(target, current, ...) {
-  units(current) <- units(target)
-  class(target) <- "errors"
-  class(current) <- "errors"
-  all.equal(target, current, ...)
-}
-
-#' @export
 str.quantities <- function(object, ...) {
   gr <- units_options("group")
   unit_string <- paste0(gr[1], as.character(attr(object, "units")), gr[2])
   err <- capture.output(str(drop_units(object), ...))
   cat(paste0(" Units+Errors: ", unit_string, sub("^ [[:graph:]]*", "", err)[1]))
 }
+
+#' @export
+duplicated.quantities <- getS3method("duplicated", "errors")
+
+#' @export
+anyDuplicated.quantities <- getS3method("anyDuplicated", "errors")
+
+#' @export
+unique.quantities <- function(x, incomparables = FALSE, ...)
+  reclass(getS3method("unique", "errors")(x, incomparables, ...))
