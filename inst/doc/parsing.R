@@ -1,4 +1,4 @@
-## ---- cache = FALSE, include=FALSE--------------------------------------------
+## ----cache = FALSE, include=FALSE---------------------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>", 
                       fig.width = 6, fig.height = 4, fig.align = "center")
 

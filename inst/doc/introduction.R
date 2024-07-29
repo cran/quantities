@@ -1,4 +1,4 @@
-## ---- cache = FALSE, include=FALSE--------------------------------------------
+## ----cache = FALSE, include=FALSE---------------------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>", 
                       fig.width = 6, fig.height = 4, fig.align = "center")
 
@@ -10,10 +10,10 @@ for (i in 1:4)
   quantities(iris.q[,i]) <- list("cm", iris.q[,i] * 0.02)
 head(iris.q)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  rownames(installed.packages(priority="base"))
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 print(c("base", "compiler", "datasets", "graphics", "grDevices", "grid", "methods", "parallel", "splines", "stats", "stats4", "tcltk", "tools", "utils"))
 
 ## -----------------------------------------------------------------------------
@@ -105,7 +105,7 @@ head(wide.2)
 ## -----------------------------------------------------------------------------
 all(sapply(colnames(iris.q), function(col) all(iris.q[[col]] == wide.2[[col]])))
 
-## ---- cache = FALSE, include=FALSE--------------------------------------------
+## ----cache = FALSE, include=FALSE---------------------------------------------
 required <- c(
   packageVersion("errors") >= "0.3.6.1",
   packageVersion("units") >= "0.8-0"
@@ -118,7 +118,7 @@ if (!all(required))
 # vector plots
 with(iris.q, plot(Sepal.Width, col=Species))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # x-y plots
 #  with(iris.q, plot(Sepal.Length, Sepal.Width, col=Species))
 #  # dataframe plots
@@ -136,14 +136,14 @@ plot(Sepal.Width ~ as.numeric(Sepal.Length), iris.q, col=Species)
 ## -----------------------------------------------------------------------------
 plot(Sepal.Width ~ set_quantities(as.numeric(Sepal.Length), 1, 0), iris.q, col=Species)
 
-## ---- cache = FALSE, include=FALSE--------------------------------------------
+## ----cache = FALSE, include=FALSE---------------------------------------------
 required <- c("dplyr", "tidyr")
 
 knitr::opts_chunk$set(eval = TRUE)
 if (!all(sapply(required, requireNamespace, quietly = TRUE)))
   knitr::opts_chunk$set(eval = FALSE)
 
-## ---- message=FALSE, warning=FALSE--------------------------------------------
+## ----message=FALSE, warning=FALSE---------------------------------------------
 library(dplyr); packageVersion("dplyr")
 library(tidyr); packageVersion("tidyr")
 
@@ -201,7 +201,7 @@ iris %>%
   select(-row_id) %>%
   head()
 
-## ---- cache = FALSE, include=FALSE--------------------------------------------
+## ----cache = FALSE, include=FALSE---------------------------------------------
 required <- c(
   packageVersion("errors") >= "0.3.6.1",
   packageVersion("units") >= "0.8-0"
@@ -210,7 +210,7 @@ required <- c(
 if (!all(required))
   knitr::opts_chunk$set(eval = FALSE)
 
-## ---- message=FALSE, warning=FALSE--------------------------------------------
+## ----message=FALSE, warning=FALSE---------------------------------------------
 library(ggplot2); packageVersion("ggplot2")
 
 ## -----------------------------------------------------------------------------
