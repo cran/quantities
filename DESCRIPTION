@@ -1,7 +1,7 @@
 Package: quantities
 Type: Package
 Title: Quantity Calculus for R Vectors
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(
     person("Iñaki", "Ucar", email="iucar@fedoraproject.org",
       role=c("aut", "cph", "cre"), comment=c(ORCID="0000-0001-6403-5550")))
@@ -26,8 +26,8 @@ ByteCompile: yes
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2024-07-29 09:49:01 UTC; iucar
+Packaged: 2025-01-18 21:00:18 UTC; iucar
 Author: Iñaki Ucar [aut, cph, cre] (<https://orcid.org/0000-0001-6403-5550>)
 Maintainer: Iñaki Ucar <iucar@fedoraproject.org>
 Repository: CRAN
-Date/Publication: 2024-07-29 10:00:02 UTC
+Date/Publication: 2025-01-18 21:20:02 UTC

@@ -11,7 +11,7 @@ for (i in 1:4)
 head(iris.q)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  rownames(installed.packages(priority="base"))
+# rownames(installed.packages(priority="base"))
 
 ## ----echo=FALSE---------------------------------------------------------------
 print(c("base", "compiler", "datasets", "graphics", "grDevices", "grid", "methods", "parallel", "splines", "stats", "stats4", "tcltk", "tools", "utils"))
@@ -119,10 +119,10 @@ if (!all(required))
 with(iris.q, plot(Sepal.Width, col=Species))
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  # x-y plots
-#  with(iris.q, plot(Sepal.Length, Sepal.Width, col=Species))
-#  # dataframe plots
-#  plot(iris.q[, c("Sepal.Length", "Sepal.Width")], col=iris.q$Species)
+# # x-y plots
+# with(iris.q, plot(Sepal.Length, Sepal.Width, col=Species))
+# # dataframe plots
+# plot(iris.q[, c("Sepal.Length", "Sepal.Width")], col=iris.q$Species)
 
 ## -----------------------------------------------------------------------------
 plot(Sepal.Width ~ Sepal.Length, iris.q, col=Species)
